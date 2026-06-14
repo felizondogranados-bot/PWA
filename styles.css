@@ -1,0 +1,808 @@
+/* -------------------------------------------------------------
+   SISTEMA DE DISEÑO Y CONFIGURACIÓN DE VARIABLES (CSS TOKENS)
+   ------------------------------------------------------------- */
+:root {
+  /* Paleta de Colores de Alta Fidelidad (HSL & Hex) */
+  --bg-gradient-start: #080711;
+  --bg-gradient-end: #12132e;
+  --panel-bg: rgba(20, 21, 41, 0.65);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-border-glow: rgba(124, 58, 237, 0.25);
+  
+  --primary: #7c3aed; /* Violeta Eléctrico */
+  --primary-hover: #6d28d9;
+  --primary-glow: rgba(124, 58, 237, 0.4);
+  
+  --secondary: #ec4899; /* Rosa Brillante */
+  --secondary-glow: rgba(236, 72, 153, 0.3);
+  
+  --text-main: #f3f4f6; /* Blanco Hielo */
+  --text-muted: #9ca3af; /* Gris Slate */
+  
+  /* Colores de Estado Semánticos */
+  --success: #10b981; /* Esmeralda */
+  --success-glow: rgba(16, 185, 129, 0.2);
+  --warning: #f59e0b; /* Ámbar */
+  --warning-glow: rgba(245, 158, 11, 0.2);
+  --danger: #f43f5e; /* Coral/Rojo */
+  --danger-hover: #e11d48;
+  
+  /* Fuentes y Sombras */
+  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.15);
+  
+  /* Bordes y Transiciones */
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* -------------------------------------------------------------
+   ESTILOS GENERALES Y RESET
+   ------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background: radial-gradient(circle at 50% 0%, var(--bg-gradient-end) 0%, var(--bg-gradient-start) 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.5);
+}
+
+/* -------------------------------------------------------------
+   CONTENEDOR PRINCIPAL (GLASSMORPHISM)
+   ------------------------------------------------------------- */
+.app-container {
+  width: 100%;
+  max-width: 550px;
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: relative;
+  transition: border-color var(--transition-normal);
+}
+
+.app-container:hover {
+  border-color: var(--panel-border-glow);
+}
+
+/* -------------------------------------------------------------
+   ENCABEZADO (HEADER)
+   ------------------------------------------------------------- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-wrapper {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.app-logo {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Red Badge (Online / Offline) */
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  border: 1px solid transparent;
+}
+
+.badge-online {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  border-color: rgba(16, 185, 129, 0.15);
+}
+
+.badge-offline {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+  border-color: rgba(245, 158, 11, 0.15);
+  animation: pulse-border 2s infinite;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.badge-online .badge-dot {
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success);
+  animation: pulse-dot 1.5s infinite;
+}
+
+.badge-offline .badge-dot {
+  background: var(--warning);
+  box-shadow: 0 0 8px var(--warning);
+}
+
+/* -------------------------------------------------------------
+   FORMULARIO DE ENTRADA (AGREGAR TAREA)
+   ------------------------------------------------------------- */
+.task-form {
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  transition: all var(--transition-fast);
+}
+
+.input-group:focus-within {
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.input-group input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  color: var(--text-main);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+}
+
+.input-group input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.btn {
+  font-family: var(--font-family);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.btn-add {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  padding: 0 24px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px var(--primary-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-add:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+  filter: brightness(1.1);
+}
+
+.btn-add:active {
+  transform: translateY(1px);
+}
+
+.btn-icon-plus {
+  display: none;
+}
+
+/* -------------------------------------------------------------
+   FILTROS INTERACTIVOS
+   ------------------------------------------------------------- */
+.task-filters {
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.filter-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.filter-btn.active {
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------------
+   LISTA DE TAREAS Y ELEMENTOS (ITEMS)
+   ------------------------------------------------------------- */
+.tasks-section {
+  position: relative;
+  min-height: 200px;
+}
+
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  transition: all var(--transition-normal);
+  animation: slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.task-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: scale(1.01);
+}
+
+/* Checkbox personalizado */
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.checkbox-custom {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.checkbox-icon {
+  width: 10px;
+  height: 8px;
+  fill: none;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: scale(0);
+  transition: transform var(--transition-fast);
+}
+
+.task-text {
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: all var(--transition-normal);
+  word-break: break-word;
+  user-select: none;
+}
+
+/* Estilos de Tarea Completada */
+.task-item.completed {
+  border-color: rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.02);
+}
+
+.task-item.completed:hover {
+  background: rgba(16, 185, 129, 0.03);
+}
+
+.task-item.completed .checkbox-custom {
+  background: var(--success);
+  border-color: var(--success);
+  box-shadow: 0 0 8px var(--success-glow);
+}
+
+.task-item.completed .checkbox-icon {
+  transform: scale(1);
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+/* Botón de eliminar (Hover dinámico) */
+.btn-delete {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete:hover {
+  color: var(--danger);
+  background: rgba(244, 63, 94, 0.15);
+  transform: scale(1.1);
+}
+
+/* Animación de salida */
+.task-item.removing {
+  animation: slide-out 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* -------------------------------------------------------------
+   VISTA VACÍA (EMPTY STATE)
+   ------------------------------------------------------------- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  gap: 15px;
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.empty-state.hide {
+  display: none;
+}
+
+.empty-illustration {
+  width: 110px;
+  height: 110px;
+  opacity: 0.8;
+}
+
+.empty-illustration svg {
+  width: 100%;
+  height: 100%;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 280px;
+}
+
+/* -------------------------------------------------------------
+   PANEL ACADÉMICO / EDUCATIVO (DETALLES PWA)
+   ------------------------------------------------------------- */
+.educational-section {
+  border-top: 1px solid var(--panel-border);
+  padding-top: 20px;
+  margin-top: 10px;
+}
+
+details {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+details[open] {
+  border-color: rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.edu-summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  color: #a78bfa;
+}
+
+.edu-summary::-webkit-details-marker {
+  display: none;
+}
+
+.edu-summary .arrow {
+  font-size: 0.65rem;
+  transition: transform var(--transition-normal);
+}
+
+details[open] .edu-summary .arrow {
+  transform: rotate(180deg);
+}
+
+.edu-content {
+  padding: 0 18px 18px 18px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  border-top: 1px solid var(--panel-border);
+  padding-top: 15px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.edu-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+}
+
+.edu-card h4 {
+  font-size: 0.8rem;
+  color: white;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.edu-card p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.edu-card code {
+  background: rgba(124, 58, 237, 0.2);
+  color: #c084fc;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-family: monospace;
+}
+
+/* -------------------------------------------------------------
+   BANNER DE INSTALACIÓN PERSONALIZADO (PWA PROMPT)
+   ------------------------------------------------------------- */
+.install-banner {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  animation: slide-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
+}
+
+.install-banner.hide {
+  display: none !important;
+}
+
+.install-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.install-icon {
+  font-size: 1.8rem;
+  animation: bounce 2s infinite;
+}
+
+.install-text h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+.install-text p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.install-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 4px 10px var(--primary-glow);
+}
+
+.btn-icon {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  padding: 4px 10px;
+  border-radius: 50%;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+/* -------------------------------------------------------------
+   TOAST DE CONEXIÓN (ONLINE / OFFLINE)
+   ------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: #14152c;
+  border: 1px solid var(--panel-border);
+  padding: 12px 24px;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+  animation: slide-up-toast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast.hide {
+  opacity: 0;
+  transform: translateX(-50%) translateY(100px);
+  pointer-events: none;
+}
+
+.toast.online {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+}
+
+.toast.offline {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.15);
+}
+
+/* -------------------------------------------------------------
+   PIE DE PÁGINA (FOOTER)
+   ------------------------------------------------------------- */
+.app-footer {
+  text-align: center;
+  border-top: 1px solid var(--panel-border);
+  padding-top: 15px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.app-footer .author {
+  color: #7c3aed;
+  font-weight: 500;
+}
+
+/* -------------------------------------------------------------
+   ANIMACIONES CLAVE
+   ------------------------------------------------------------- */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up-toast {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* -------------------------------------------------------------
+   PANTALLAS RESPONSIVE (MÓVIL / MINI)
+   ------------------------------------------------------------- */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .app-container {
+    padding: 20px;
+    gap: 20px;
+    border-radius: var(--radius-md);
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  .input-group input {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .btn-add {
+    padding: 0 16px;
+  }
+
+  .btn-text {
+    display: none;
+  }
+
+  .btn-icon-plus {
+    display: inline-block;
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+  
+  .install-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .install-actions {
+    justify-content: flex-end;
+  }
+}
