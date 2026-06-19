@@ -1,182 +1,293 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Configuración Básica de PWA e Identidad -->
-  <title>TaskEasy - Tu Lista de Tareas PWA</title>
-  <meta name="description" content="Una aplicación de tareas moderna, rápida y que funciona 100% sin conexión a Internet.">
-  <meta name="theme-color" content="#7C3AED">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Enlace al archivo Manifest (Requisito fundamental PWA) -->
-  <!-- El manifest permite que la app sea instalable y define su apariencia al abrirse -->
-  <link rel="manifest" href="manifest.json">
+    <title>TaskEasy - Tu Lista de Tareas PWA</title>
+    <meta
+      name="description"
+      content="Una aplicación de tareas moderna, rápida y que funciona 100% sin conexión a Internet."
+    />
+    <meta name="theme-color" content="#7c3aed" />
 
-  <!-- Iconos para dispositivos iOS (Apple) -->
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json" />
 
-  <!-- Google Fonts - Fuentes modernas y estilizadas (Outfit) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- meta tags para IOS -->
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
 
-  <!-- Enlace a los estilos CSS -->
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Notificación Flotante de Conexión (Offline/Online) -->
-  <div id="connection-toast" class="toast hide" role="alert" aria-live="assertive">
-    <span class="toast-icon">⚡</span>
-    <span id="toast-message">Estás conectado a internet.</span>
-  </div>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-  <!-- Contenedor Principal con efecto Glassmorphism -->
-  <div class="app-container">
-    
-    <!-- Banner de Instalación Personalizado para PWA -->
-    <!-- Se muestra dinámicamente si el navegador detecta que la app es instalable -->
-    <div id="install-banner" class="install-banner hide">
-      <div class="install-info">
-        <span class="install-icon">📲</span>
-        <div class="install-text">
-          <h3>Instalar TaskEasy</h3>
-          <p>Añade la app a tu pantalla de inicio para usarla a pantalla completa.</p>
-        </div>
-      </div>
-      <div class="install-actions">
-        <button id="btn-install" class="btn btn-primary btn-sm">Instalar</button>
-        <button id="btn-close-install" class="btn btn-icon btn-sm" aria-label="Cerrar banner">×</button>
-      </div>
+  <body>
+    <div
+      id="connection-toast"
+      class="toast hide"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="toast-icon" aria-hidden="true">⚡</span>
+      <span id="toast-message">Estás conectado a internet.</span>
     </div>
 
-    <!-- Encabezado de la Aplicación -->
-    <header class="app-header">
-      <div class="brand">
-        <div class="logo-wrapper">
-          <svg class="app-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="6" fill="url(#logo-grad)"/>
-            <path d="M7.5 12L10.5 15L16.5 9" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="logo-grad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#7C3AED"/>
-                <stop offset="1" stop-color="#EC4899"/>
-              </linearGradient>
-            </defs>
-          </svg>
+    <div class="app-container">
+      <div id="install-banner" class="install-banner hide">
+        <div class="install-info">
+          <span class="install-icon" aria-hidden="true">📲</span>
+          <div class="install-text">
+            <h2>Instalar TaskEasy</h2>
+            <p>
+              Añade la app a tu pantalla de inicio para usarla a pantalla
+              completa.
+            </p>
+          </div>
         </div>
-        <div>
-          <h1>TaskEasy</h1>
-          <p class="tagline">Organiza tu día con simplicidad</p>
-        </div>
-      </div>
-      
-      <!-- Indicador de estado de conexión visual -->
-      <div id="network-badge" class="badge badge-online">
-        <span class="badge-dot"></span>
-        <span id="badge-text">En línea</span>
-      </div>
-    </header>
-
-    <!-- Sección de Entrada para nuevas tareas -->
-    <main class="app-content">
-      <form id="task-form" class="task-form">
-        <div class="input-group">
-          <input 
-            type="text" 
-            id="task-input" 
-            placeholder="¿Qué tienes planeado para hoy?" 
-            autocomplete="off" 
-            required
-            aria-label="Nueva tarea"
+        <div class="install-actions">
+          <button id="btn-install" class="btn btn-primary btn-sm" type="button">
+            Instalar
+          </button>
+          <button
+            id="btn-close-install"
+            class="btn btn-icon btn-sm"
+            type="button"
+            aria-label="Cerrar banner de instalación"
           >
-          <button type="submit" class="btn btn-add" aria-label="Agregar tarea">
-            <span class="btn-text">Agregar</span>
-            <span class="btn-icon-plus">+</span>
+            &times;
           </button>
         </div>
-      </form>
-
-      <!-- Filtros de tareas (Filtro interactivo) -->
-      <div class="task-filters">
-        <button class="filter-btn active" data-filter="all">Todas</button>
-        <button class="filter-btn" data-filter="active">Pendientes</button>
-        <button class="filter-btn" data-filter="completed">Completadas</button>
       </div>
 
-      <!-- Contenedor de la lista de tareas -->
-      <section class="tasks-section">
-        <ul id="task-list" class="task-list">
-          <!-- Las tareas se inyectan dinámicamente mediante JS -->
-        </ul>
-
-        <!-- Vista cuando no hay tareas (Empty State) -->
-        <div id="empty-state" class="empty-state">
-          <div class="empty-illustration">
-            <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="100" cy="100" r="70" stroke="url(#empty-grad)" stroke-width="2" stroke-dasharray="8 6" opacity="0.3"/>
-              <path d="M85 130L115 130" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
-              <path d="M80 110L120 110" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
-              <path d="M90 90L110 90" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
-              <circle cx="100" cy="100" r="12" stroke="#EC4899" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 2"/>
-              <path d="M100 88V70" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-              <path d="M100 112V130" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+      <header class="app-header">
+        <div class="brand">
+          <div class="logo-wrapper">
+            <svg
+              class="app-logo"
+              viewBox="0 0 24 24"
+              fill="none"
+              role="img"
+              aria-label="Logo de TaskEasy"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="24" height="24" rx="6" fill="url(#logo-grad)" />
+              <path
+                d="M7.5 12L10.5 15L16.5 9"
+                stroke="white"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <defs>
-                <linearGradient id="empty-grad" x1="30" y1="30" x2="170" y2="170" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#7C3AED"/>
-                  <stop offset="1" stop-color="#EC4899"/>
+                <linearGradient
+                  id="logo-grad"
+                  x1="0"
+                  y1="0"
+                  x2="24"
+                  y2="24"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#7c3aed" />
+                  <stop offset="1" stop-color="#ec4899" />
                 </linearGradient>
               </defs>
             </svg>
           </div>
-          <p id="empty-message">¡Todo limpio por aquí! Agrega una tarea para comenzar.</p>
-        </div>
-      </section>
-
-      <!-- Panel Académico Informativo de PWA (Excelente para la exposición universitaria) -->
-      <section class="educational-section">
-        <details>
-          <summary class="edu-summary">
-            <span>🎓 Explicación Técnica (PWA Info)</span>
-            <span class="arrow">▼</span>
-          </summary>
-          <div class="edu-content">
-            <div class="edu-card">
-              <h4>🛠️ Service Worker</h4>
-              <p>Es un script que el navegador ejecuta en segundo plano. Permite interceptar peticiones de red, manejar la caché y posibilitar la carga instantánea y el soporte sin conexión.</p>
-              <small>Ver archivo: <code>service-worker.js</code></small>
-            </div>
-            <div class="edu-card">
-              <h4>💾 Estrategia de Caché</h4>
-              <p>Usamos <strong>Cache-First</strong>. Al abrir la app, el Service Worker instala y guarda en la caché del navegador los archivos HTML, CSS, JS e iconos. Si no hay conexión, se sirven directo desde la caché.</p>
-            </div>
-            <div class="edu-card">
-              <h4>📱 Web App Manifest</h4>
-              <p>Archivo JSON que especifica el nombre de la app, iconos, pantalla de inicio, modo standalone y color de fondo. Permite que el sistema operativo la reconozca como una aplicación nativa instalable.</p>
-              <small>Ver archivo: <code>manifest.json</code></small>
-            </div>
-            <div class="edu-card">
-              <h4>⚡ Persistencia Local</h4>
-              <p>Las tareas se guardan en <code>LocalStorage</code> del navegador. Aunque se cierre la pestaña o el dispositivo se reinicie, los datos persisten localmente en formato JSON.</p>
-            </div>
+          <div>
+            <h1>TaskEasy</h1>
+            <p class="tagline">Organiza tu día con simplicidad</p>
           </div>
-        </details>
-      </section>
+        </div>
 
-    </main>
+        <p id="network-badge" class="badge badge-online">
+          <span class="badge-dot" aria-hidden="true"></span>
+          <span id="badge-text">En línea</span>
+        </p>
+      </header>
 
-    <!-- Pie de página de la aplicación -->
-    <footer class="app-footer">
-      <p>TaskEasy PWA &copy; 2026 - HTML5, CSS3 & Vanilla JavaScript</p>
-      <p class="author">Proyecto de Demostración Universitaria</p>
-    </footer>
+      <main class="app-content">
+        <form id="task-form" class="task-form">
+          <div class="input-group">
+            <label for="task-input" class="visually-hidden">Nueva tarea</label>
+            <input
+              type="text"
+              id="task-input"
+              name="task"
+              placeholder="¿Qué tienes planeado para hoy?"
+              autocomplete="off"
+              required
+            />
+            <button type="submit" class="btn btn-add">
+              <span class="btn-text">Agregar</span>
+              <span class="btn-icon-plus" aria-hidden="true">+</span>
+            </button>
+          </div>
+        </form>
 
-  </div>
+        <nav class="task-filters" aria-label="Filtrar tareas">
+          <button class="filter-btn active" type="button" data-filter="all">
+            Todas
+          </button>
+          <button class="filter-btn" type="button" data-filter="active">
+            Pendientes
+          </button>
+          <button class="filter-btn" type="button" data-filter="completed">
+            Completadas
+          </button>
+        </nav>
 
-  <!-- Carga del script principal -->
-  <script src="app.js"></script>
-</body>
+        <section class="tasks-section" aria-label="Lista de tareas">
+          <ul id="task-list" class="task-list"></ul>
+
+          <div id="empty-state" class="empty-state">
+            <div class="empty-illustration" aria-hidden="true">
+              <svg
+                viewBox="0 0 200 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="70"
+                  stroke="url(#empty-grad)"
+                  stroke-width="2"
+                  stroke-dasharray="8 6"
+                  opacity="0.3"
+                />
+                <path
+                  d="M85 130L115 130"
+                  stroke="#7c3aed"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  opacity="0.5"
+                />
+                <path
+                  d="M80 110L120 110"
+                  stroke="#7c3aed"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  opacity="0.5"
+                />
+                <path
+                  d="M90 90L110 90"
+                  stroke="#7c3aed"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  opacity="0.5"
+                />
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="12"
+                  stroke="#ec4899"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="4 2"
+                />
+                <path
+                  d="M100 88V70"
+                  stroke="#7c3aed"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  opacity="0.7"
+                />
+                <path
+                  d="M100 112V130"
+                  stroke="#7c3aed"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  opacity="0.7"
+                />
+                <defs>
+                  <linearGradient
+                    id="empty-grad"
+                    x1="30"
+                    y1="30"
+                    x2="170"
+                    y2="170"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#7c3aed" />
+                    <stop offset="1" stop-color="#ec4899" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <p id="empty-message">
+              ¡Todo limpio por aquí! Agrega una tarea para comenzar.
+            </p>
+          </div>
+        </section>
+
+        <section
+          class="educational-section"
+          aria-label="Información técnica sobre PWA"
+        >
+          <details>
+            <summary class="edu-summary">
+              <span>🎓 Explicación Técnica (PWA Info)</span>
+              <span class="arrow" aria-hidden="true">▼</span>
+            </summary>
+            <div class="edu-content">
+              <article class="edu-card">
+                <h3>🛠️ Service Worker</h3>
+                <p>
+                  Es un script que el navegador ejecuta en segundo plano.
+                  Permite interceptar peticiones de red, manejar la caché y
+                  posibilitar la carga instantánea y el soporte sin conexión.
+                </p>
+                <small>Ver archivo: <code>service-worker.js</code></small>
+              </article>
+              <article class="edu-card">
+                <h3>💾 Estrategia de Caché</h3>
+                <p>
+                  Usamos <strong>Cache-First</strong>. Al abrir la app, el
+                  Service Worker instala y guarda en la caché del navegador los
+                  archivos HTML, CSS, JS e iconos. Si no hay conexión, se sirven
+                  directo desde la caché.
+                </p>
+              </article>
+              <article class="edu-card">
+                <h3>📱 Web App Manifest</h3>
+                <p>
+                  Archivo JSON que especifica el nombre de la app, iconos,
+                  pantalla de inicio, modo standalone y color de fondo. Permite
+                  que el sistema operativo la reconozca como una aplicación
+                  nativa instalable.
+                </p>
+                <small>Ver archivo: <code>manifest.json</code></small>
+              </article>
+              <article class="edu-card">
+                <h3>⚡ Persistencia Local</h3>
+                <p>
+                  Las tareas se guardan en <code>localStorage</code> del
+                  navegador. Aunque se cierre la pestaña o el dispositivo se
+                  reinicie, los datos persisten localmente en formato JSON.
+                </p>
+              </article>
+            </div>
+          </details>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p>TaskEasy PWA &copy; 2026 - HTML5, CSS3 &amp; Vanilla JavaScript</p>
+        <p class="author">Proyecto de Demostración Universitaria</p>
+      </footer>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
 </html>

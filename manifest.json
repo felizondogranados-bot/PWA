@@ -1,5 +1,5 @@
 {
-  "name": "TaskEasy",
+  "name": "TaskEasy - Lista de Tareas PWA",
   "short_name": "TaskEasy",
   "description": "Una lista de tareas sencilla, moderna y ultra rápida que funciona sin conexión a Internet.",
   "start_url": "./index.html",
@@ -7,10 +7,7 @@
   "background_color": "#0B0B1E",
   "theme_color": "#7C3AED",
   "orientation": "portrait",
-  "categories": [
-    "productivity",
-    "utilities"
-  ],
+  "categories": ["productivity", "utilities"],
   "icons": [
     {
       "src": "icons/icon-192.png",
